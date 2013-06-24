@@ -4,7 +4,7 @@ gem 'rails', '3.2.13'
 
 gem 'rails-api'
 
-gem 'mysql2'
+gem 'pg'
 
 group :development, :test do
   gem 'rspec-rails', "~> 2.0"

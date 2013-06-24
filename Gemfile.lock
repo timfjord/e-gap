@@ -90,9 +90,9 @@ GEM
     mime-types (1.23)
     mini_portile (0.5.0)
     multi_json (1.7.7)
-    mysql2 (0.3.11)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
+    pg (0.15.1)
     pickle (0.4.11)
       cucumber (>= 0.8)
       rake
@@ -177,7 +177,7 @@ DEPENDENCIES
   guard-cucumber
   guard-rspec
   listen (~> 0.7.2)
-  mysql2
+  pg
   pickle
   pry-rails
   rails (= 3.2.13)
