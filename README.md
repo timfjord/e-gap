@@ -21,6 +21,8 @@ Make sure you have postgres installed with `timsly` user.
 
 ## Test unit
 
+    $ bundle exec rake db:test:prepare
+
 To run rspec
 
     $ bundle exec rspec
