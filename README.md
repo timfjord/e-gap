@@ -30,4 +30,8 @@ To run rspec
 To run cucumber features
 
     $ bundle exec cucumber
+    
+## TODO
+
+Add features to cover xml format
 
