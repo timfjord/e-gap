@@ -7,11 +7,11 @@ class Api::PagesController < ApplicationController
   end
   
   def published
-    respond_with :api, Page.published
+    respond_with :api, Page.published.order('published_on DESC')
   end
   
   def unpublished
-    respond_with :api, Page.unpublished
+    respond_with :api, Page.unpublished.order('published_on DESC')
   end
 
   def show
