@@ -53,3 +53,48 @@ Feature: Pages API
     And page exists with id: 1, title: "Homepage", content: "My awesome page"
     When I send DELETE request to "/api/pages/1"
     Then the response status should be "204"
+    
+  Scenario: Published pages
+    Given I send and accept JSON
+    And the following pages exist
+      | title            | content             | published_on    |
+      | Published page   | Published content   | 2013-8-10 5:5:5 |
+      | Unpublished page | Unpublished content |                 |
+
+    When I send GET request to "/api/pages/published"
+    Then the response status should be "200"
+    And the response body should contain "page" object with fields:
+      | title          | content           |
+      | Published page | Published content |
+    And the response body should not contain "page" object with fields:
+      | title            | content             |
+      | Unpublished page | Unpublished content |
+      
+  Scenario: Unpublished pages
+    Given I send and accept JSON
+    And the following pages exist
+      | title            | content             | published_on    |
+      | Published page   | Published content   | 2013-8-10 5:5:5 |
+      | Unpublished page | Unpublished content |                 |
+    When I send GET request to "/api/pages/unpublished"
+    Then the response status should be "200"
+    And the response body should contain "page" object with fields:
+      | title            | content             |
+      | Unpublished page | Unpublished content |
+    And the response body should not contain "page" object with fields:
+      | title          | content           |
+      | Published page | Published content |
+
+  Scenario: Publish page
+    Given I send and accept JSON
+    And page exists with id: 1, title: "Homepage", content: "My awesome page"
+    When I send POST request to "/api/pages/1/publish"
+    Then the response status should be "201"
+    And the response body should contain "page" object with not nil field "published_on"
+    
+  Scenario: Unpublish page
+    Given I send and accept JSON
+    And page exists with id: 1, title: "Homepage", content: "My awesome page"
+    When I send POST request to "/api/pages/1/unpublish"
+    Then the response status should be "201"
+    And the response body should contain "page" object with nil field "published_on"

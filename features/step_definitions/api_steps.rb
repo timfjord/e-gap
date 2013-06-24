@@ -3,7 +3,7 @@ Given(/^I send and accept JSON$/) do
   header 'Content-Type', 'application/json'
 end
 
-When(/^I send (GET|DELETE) request to "([^\"]*)"$/) do |method, path|
+When(/^I send (GET|POST|DELETE) request to "([^\"]*)"$/) do |method, path|
   send method.downcase, path
 end
 
@@ -15,16 +15,30 @@ Then(/^the response status should be "([^\"]*)"$/) do |status|
   expect(last_response.status).to eql status.to_i
 end
 
-Then(/^the response body should contain "([^\"]*)" object with fields:$/) do |root, table|
-  last_json = ActiveSupport::JSON.decode last_response.body
-  last_json = last_json.first if last_json.is_a? Array
+Then(/^the response body should( not)? contain "([^\"]*)" object with fields:$/) do |negative, root, table|
+  # wrap into Array to mahke sure we match GET and POST responses
+  last_json = Array.wrap ActiveSupport::JSON.decode(last_response.body)
   fields = table.hashes.first
   
-  obj = last_json[root]
-  expect(obj).to be_kind_of Hash
+  last_json.each do |json|
+    fields.each do |key, value|
+      obj = json[root]
+
+      if negative
+        expect(obj[key]).not_to eql value
+      else
+        expect(obj).to have_key key
+        expect(obj[key]).to eql value
+      end
+    end
+  end
+end
+
+Then(/^the response body should contain "([^\"]*)" object with( not)? nil field "(.*?)"$/) do |root, negative, field|
+  last_json = Array.wrap ActiveSupport::JSON.decode(last_response.body)
+  expectation_method = negative ? :not_to : :to
   
-  fields.each do |key, value|
-    expect(obj).to have_key(key)
-    expect(obj[key]).to eql value
+  last_json.each do |json|
+    expect(json[root][field]).send expectation_method, be_nil
   end
 end
