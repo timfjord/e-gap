@@ -33,6 +33,10 @@ class Api::PagesController < ApplicationController
   def unpublish
     respond_with :api, Page.find(params[:id]).unpublish
   end
+  
+  def total_words
+    respond_with :api, Page.find(params[:id]).total_words
+  end
 
   def destroy
     respond_with :api, Page.destroy(params[:id])

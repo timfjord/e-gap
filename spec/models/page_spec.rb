@@ -51,4 +51,12 @@ describe Page do
       end
     end
   end
+  
+  describe "#total_words" do
+    let(:page) { create :page, title: 'Word1', content: 'Word2 Word3' }
+    
+    it "returns the total number of words (title and content)" do
+      expect(page.total_words).to be 3
+    end
+  end
 end

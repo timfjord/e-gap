@@ -42,3 +42,7 @@ Then(/^the response body should contain "([^\"]*)" object with( not)? nil field 
     expect(json[root][field]).send expectation_method, be_nil
   end
 end
+
+Then(/^the response body should contain$/) do |body|
+  expect(last_response.body).to eql body
+end

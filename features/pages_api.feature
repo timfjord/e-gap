@@ -98,3 +98,13 @@ Feature: Pages API
     When I send POST request to "/api/pages/1/unpublish"
     Then the response status should be "201"
     And the response body should contain "page" object with nil field "published_on"
+    
+  Scenario: Page total words
+    Given I send and accept JSON
+    And page exists with id: 1, title: "Word1", content: "Word2 Word3 Word4"
+    When I send GET request to "/api/pages/1/total_words"
+    Then the response status should be "200"
+    And the response body should contain
+    """
+    4
+    """

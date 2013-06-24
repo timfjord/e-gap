@@ -9,6 +9,7 @@ EGap::Application.routes.draw do
       member do
         post :publish
         post :unpublish
+        get :total_words
       end
     end
   end

@@ -22,4 +22,8 @@ class Page < ActiveRecord::Base
     update_attribute :published_on, nil
     self
   end
+  
+  def total_words
+    title.scan(/\w+/).size + content.scan(/\w+/).size
+  end
 end
