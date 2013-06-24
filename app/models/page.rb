@@ -2,8 +2,8 @@ class Page < ActiveRecord::Base
   validates :title, presence: true, uniqueness: true
   validates :content, presence: true
   
-  scope :published, -> { where arel_table[:published_on].not_eq(nil) }
-  scope :unpublished, -> { where published_on: nil }
+  scope :published, -> { where arel_table[:published_on].not_eq(nil).and(arel_table[:published_on].lteq(DateTime.current)) }
+  scope :unpublished, -> { where arel_table[:published_on].eq(nil).or(arel_table[:published_on].gt(DateTime.current)) }
   
   def unpublished?
     !published_on || published_on > DateTime.current

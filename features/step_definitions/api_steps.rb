@@ -18,20 +18,19 @@ end
 Then(/^the response body should( not)? contain "([^\"]*)" object with fields:$/) do |negative, root, table|
   # wrap into Array to mahke sure we match GET and POST responses
   last_json = Array.wrap ActiveSupport::JSON.decode(last_response.body)
-  fields = table.hashes.first
   
-  last_json.each do |json|
-    fields.each do |key, value|
+  result = table.hashes.any? do |fields|
+    last_json.any? do |json|
       obj = json[root]
-
-      if negative
-        expect(obj[key]).not_to eql value
-      else
-        expect(obj).to have_key key
-        expect(obj[key]).to eql value
-      end
+      keys_intersect = obj.keys & fields.keys
+      values_intersect = obj.values & fields.values
+      # compare arrays without order, A match B if A - B = B - A
+      (keys_intersect - fields.keys == fields.keys - keys_intersect) &&
+        (values_intersect - fields.values == fields.values - values_intersect)
     end
   end
+  
+  expect(result).to (negative ? be_false : be_true)
 end
 
 Then(/^the response body should contain "([^\"]*)" object with( not)? nil field "(.*?)"$/) do |root, negative, field|

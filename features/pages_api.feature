@@ -57,30 +57,33 @@ Feature: Pages API
   Scenario: Published pages
     Given I send and accept JSON
     And the following pages exist
-      | title            | content             | published_on    |
-      | Published page   | Published content   | 2013-8-10 5:5:5 |
-      | Unpublished page | Unpublished content |                 |
-
+      | title            | content                         | published_on    |
+      | Published page   | Published content               | 2012-8-10 5:5:5 |
+      | Future post      | Will be published in the future | 2044-8-10 5:5:5 |
+      | Unpublished page | Unpublished content             |                 |
     When I send GET request to "/api/pages/published"
     Then the response status should be "200"
     And the response body should contain "page" object with fields:
       | title          | content           |
       | Published page | Published content |
     And the response body should not contain "page" object with fields:
-      | title            | content             |
-      | Unpublished page | Unpublished content |
+      | title            | content                         |
+      | Unpublished page | Unpublished content             |
+      | Future post      | Will be published in the future |
       
   Scenario: Unpublished pages
     Given I send and accept JSON
     And the following pages exist
-      | title            | content             | published_on    |
-      | Published page   | Published content   | 2013-8-10 5:5:5 |
-      | Unpublished page | Unpublished content |                 |
+      | title            | content                         | published_on    |
+      | Published page   | Published content               | 2012-8-10 5:5:5 |
+      | Future post      | Will be published in the future | 2044-8-10 5:5:5 |
+      | Unpublished page | Unpublished content             |                 |
     When I send GET request to "/api/pages/unpublished"
     Then the response status should be "200"
     And the response body should contain "page" object with fields:
-      | title            | content             |
-      | Unpublished page | Unpublished content |
+      | title            | content                         |
+      | Future post      | Will be published in the future |
+      | Unpublished page | Unpublished content             |
     And the response body should not contain "page" object with fields:
       | title          | content           |
       | Published page | Published content |

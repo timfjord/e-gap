@@ -8,30 +8,28 @@ describe Page do
   context "published/unpublished" do
     let(:published_page) { create :published_page }
     let(:unpublished_page) { create :unpublished_page }
+    let(:published_1_day_ago) { create :page, published_on: 1.day.ago }
+    let(:published_tomorrow) { create :page, published_on: DateTime.tomorrow }
     
     describe '#published?' do
-      let(:publushed_1_day_ago) { create :page, published_on: 1.day.ago }
-      
       it "should detect publshed page" do
         expect(published_page).to be_published
         expect(unpublished_page).not_to be_published
       end
       
       it "should be published if published_on is is set to sometime in the past" do
-        expect(publushed_1_day_ago).to be_published
+        expect(published_1_day_ago).to be_published
       end
     end
 
     describe '#unpublished?' do
-      let(:publushed_tomorrow) { create :page, published_on: DateTime.tomorrow }
-      
       it "should detect unpublshed page if published_on is nil" do
         expect(unpublished_page).to be_unpublished
         expect(published_page).not_to be_unpublished
       end
       
       it "should be unpublished if published_on is is set to sometime in the future" do
-        expect(publushed_tomorrow).to be_unpublished
+        expect(published_tomorrow).to be_unpublished
       end
     end
     
@@ -52,14 +50,18 @@ describe Page do
         subject { Page.published }
         
         it { should include published_page }
+        it { should include published_1_day_ago }
         it { should_not include unpublished_page }
+        it { should_not include published_tomorrow }
       end
       
       describe "#unpublished" do
         subject { Page.unpublished }
         
         it { should include unpublished_page }
+        it { should include published_tomorrow }
         it { should_not include published_page }
+        it { should_not include published_1_day_ago }
       end
     end
   end
