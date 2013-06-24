@@ -6,7 +6,7 @@ class Page < ActiveRecord::Base
   scope :unpublished, -> { where published_on: nil }
   
   def unpublished?
-    !published_on
+    !published_on || published_on > DateTime.current
   end
   
   def published?

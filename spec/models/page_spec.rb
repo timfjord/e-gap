@@ -17,9 +17,15 @@ describe Page do
     end
 
     describe '#unpublished?' do
-      it "should detect unpublshed page" do
+      let(:publushed_tomorrow) { create :page, published_on: DateTime.tomorrow }
+      
+      it "should detect unpublshed page if published_on is nil" do
         expect(unpublished_page).to be_unpublished
         expect(published_page).not_to be_unpublished
+      end
+      
+      it "should be unpublished if published_on is is set to sometime in the future" do
+        expect(publushed_tomorrow).to be_unpublished
       end
     end
     

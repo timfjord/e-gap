@@ -2,10 +2,9 @@ FactoryGirl.define do
   factory :page do
     sequence(:title) { |n| "Title #{n}" }
     sequence(:content) { |n| "Page content #{n}" }
-    published_on { DateTime.current }
     
     factory :published_page do
-      published_on { DateTime.current }
+      published_on { 1.day.ago }
     end
     
     factory :unpublished_page do
