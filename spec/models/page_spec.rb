@@ -10,9 +10,15 @@ describe Page do
     let(:unpublished_page) { create :unpublished_page }
     
     describe '#published?' do
+      let(:publushed_1_day_ago) { create :page, published_on: 1.day.ago }
+      
       it "should detect publshed page" do
         expect(published_page).to be_published
         expect(unpublished_page).not_to be_published
+      end
+      
+      it "should be published if published_on is is set to sometime in the past" do
+        expect(publushed_1_day_ago).to be_published
       end
     end
 
