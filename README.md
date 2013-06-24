@@ -6,6 +6,8 @@
 * [http://cryptic-escarpment-9434.herokuapp.com/api/pages/publushed](http://cryptic-escarpment-9434.herokuapp.com/api/pages/publushed)
 * [http://cryptic-escarpment-9434.herokuapp.com/api/pages/unpublushed](http://cryptic-escarpment-9434.herokuapp.com/api/pages/unpublushed)
 
+By default server return json response. To get xml use http://cryptic-escarpment-9434.herokuapp.com/api/pages.xml
+
 ## Usage
 
     $ git clone git@github.com:timsly/e-gap.git
